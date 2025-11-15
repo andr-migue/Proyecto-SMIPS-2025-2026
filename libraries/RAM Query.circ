@@ -294,4 +294,17 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="bit31" val="0"/>
     </comp>
   </circuit>
+  <circuit name="Write Data">
+    <a name="circuit" val="Write Data"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(280,140)" to="(280,210)"/>
+    <wire from="(280,140)" to="(440,140)"/>
+    <wire from="(170,130)" to="(170,150)"/>
+    <wire from="(230,140)" to="(230,160)"/>
+    <wire from="(170,130)" to="(370,130)"/>
+    <wire from="(230,140)" to="(280,140)"/>
+    <wire from="(150,170)" to="(250,170)"/>
+  </circuit>
 </project>
