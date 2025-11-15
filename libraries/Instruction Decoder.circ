@@ -54,83 +54,74 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif bold 12"/>
     <appear>
-      <rect fill="#20fff8" height="146" rx="10" ry="10" stroke="#113f8f" stroke-width="2" width="101" x="100" y="28"/>
-      <text fill="#113f8f" font-family="SansSerif" font-size="12" text-anchor="middle" x="132" y="44">Instruction</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="12" text-anchor="middle" x="133" y="57">Decoder</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="120" y="102">Instruction</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="181" y="42">Op Code</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="183" y="142">Destiny</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="184" y="162">Const</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="187" y="82">RS</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="187" y="102">RT</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="187" y="123">RD</text>
-      <text fill="#113f8f" font-family="SansSerif" font-size="6" text-anchor="middle" x="178" y="62">Func Code</text>
-      <circ-port height="8" pin="110,100" width="8" x="96" y="96"/>
-      <circ-port height="10" pin="570,70" width="10" x="195" y="35"/>
-      <circ-port height="10" pin="560,140" width="10" x="195" y="135"/>
-      <circ-port height="10" pin="560,220" width="10" x="195" y="75"/>
-      <circ-port height="10" pin="580,270" width="10" x="195" y="155"/>
-      <circ-port height="10" pin="580,320" width="10" x="195" y="95"/>
-      <circ-port height="10" pin="600,370" width="10" x="195" y="115"/>
-      <circ-port height="10" pin="610,410" width="10" x="195" y="55"/>
-      <circ-anchor facing="east" height="6" width="6" x="87" y="37"/>
+      <rect fill="#20fff8" height="316" rx="10" ry="10" stroke="#113f8f" stroke-width="2" width="210" x="100" y="28"/>
+      <text fill="#23596e" font-family="SansSerif" font-size="24" font-weight="bold" text-anchor="middle" x="178" y="166">Instruction</text>
+      <text fill="#23596e" font-family="SansSerif" font-size="24" font-weight="bold" text-anchor="middle" x="164" y="199">Decoder</text>
+      <text fill="#36858f" font-family="SansSerif" font-size="13" font-weight="bold" text-anchor="middle" x="145" y="263">Instruction</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="270" y="65">Op Code</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="281" y="263">Dest</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="279" y="304">Const</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="289" y="146">RS</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="289" y="185">RT</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="288" y="224">RD</text>
+      <text fill="#336e9c" font-family="SansSerif" font-size="14" font-weight="bold" text-anchor="middle" x="264" y="104">Func Code</text>
+      <circ-port height="8" pin="130,190" width="8" x="96" y="256"/>
+      <circ-port height="10" pin="570,70" width="10" x="305" y="55"/>
+      <circ-port height="10" pin="560,140" width="10" x="305" y="255"/>
+      <circ-port height="10" pin="560,220" width="10" x="305" y="295"/>
+      <circ-port height="10" pin="580,270" width="10" x="305" y="135"/>
+      <circ-port height="10" pin="580,320" width="10" x="305" y="175"/>
+      <circ-port height="10" pin="600,370" width="10" x="305" y="215"/>
+      <circ-port height="10" pin="610,410" width="10" x="305" y="95"/>
+      <circ-anchor facing="east" height="6" width="6" x="97" y="47"/>
     </appear>
-    <wire from="(240,80)" to="(270,80)"/>
-    <wire from="(240,90)" to="(270,90)"/>
-    <wire from="(270,80)" to="(300,80)"/>
-    <wire from="(320,70)" to="(340,70)"/>
+    <wire from="(260,170)" to="(290,170)"/>
+    <wire from="(260,180)" to="(290,180)"/>
+    <wire from="(290,170)" to="(320,170)"/>
+    <wire from="(340,160)" to="(360,160)"/>
     <wire from="(530,220)" to="(560,220)"/>
     <wire from="(540,70)" to="(570,70)"/>
     <wire from="(530,140)" to="(560,140)"/>
     <wire from="(520,270)" to="(580,270)"/>
     <wire from="(520,320)" to="(580,320)"/>
-    <wire from="(270,60)" to="(270,80)"/>
     <wire from="(570,410)" to="(610,410)"/>
-    <wire from="(170,90)" to="(180,90)"/>
-    <wire from="(170,100)" to="(170,120)"/>
-    <wire from="(180,70)" to="(180,90)"/>
-    <wire from="(240,100)" to="(240,120)"/>
+    <wire from="(290,150)" to="(290,170)"/>
+    <wire from="(260,190)" to="(260,210)"/>
+    <wire from="(190,180)" to="(200,180)"/>
+    <wire from="(190,190)" to="(190,210)"/>
+    <wire from="(200,160)" to="(200,180)"/>
     <wire from="(520,370)" to="(600,370)"/>
-    <wire from="(110,100)" to="(150,100)"/>
-    <wire from="(320,90)" to="(320,120)"/>
-    <wire from="(270,90)" to="(270,120)"/>
-    <wire from="(180,90)" to="(220,90)"/>
-    <comp lib="0" loc="(180,70)" name="Tunnel">
-      <a name="facing" val="south"/>
-      <a name="width" val="26"/>
-      <a name="label" val="Destiny"/>
+    <wire from="(130,190)" to="(170,190)"/>
+    <wire from="(290,180)" to="(290,210)"/>
+    <wire from="(340,180)" to="(340,210)"/>
+    <wire from="(200,180)" to="(240,180)"/>
+    <comp lib="0" loc="(610,410)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="6"/>
     </comp>
-    <comp lib="0" loc="(530,140)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="26"/>
-      <a name="label" val="Destiny"/>
+    <comp lib="0" loc="(290,210)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="width" val="5"/>
+      <a name="label" val="RT"/>
     </comp>
-    <comp lib="0" loc="(300,80)" name="Splitter">
-      <a name="fanout" val="3"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="center"/>
-      <a name="bit1" val="0"/>
-      <a name="bit2" val="0"/>
-      <a name="bit3" val="0"/>
-      <a name="bit4" val="0"/>
-      <a name="bit5" val="0"/>
-      <a name="bit6" val="1"/>
-      <a name="bit7" val="1"/>
-      <a name="bit8" val="1"/>
-      <a name="bit9" val="1"/>
-      <a name="bit10" val="1"/>
-      <a name="bit11" val="2"/>
-      <a name="bit12" val="2"/>
-      <a name="bit13" val="2"/>
-      <a name="bit14" val="2"/>
-      <a name="bit15" val="2"/>
+    <comp lib="0" loc="(190,210)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="width" val="6"/>
+      <a name="label" val="Op Code"/>
     </comp>
-    <comp lib="0" loc="(110,100)" name="Pin">
+    <comp lib="0" loc="(130,190)" name="Pin">
       <a name="width" val="32"/>
+      <a name="tristate" val="false"/>
       <a name="label" val="Instruction"/>
       <a name="labelloc" val="north"/>
     </comp>
-    <comp lib="0" loc="(220,90)" name="Splitter">
+    <comp lib="0" loc="(520,370)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="5"/>
+      <a name="label" val="RD"/>
+    </comp>
+    <comp lib="0" loc="(240,180)" name="Splitter">
       <a name="fanout" val="3"/>
       <a name="incoming" val="26"/>
       <a name="appear" val="center"/>
@@ -160,42 +151,92 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="bit24" val="2"/>
       <a name="bit25" val="2"/>
     </comp>
-    <comp lib="0" loc="(580,270)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
+    <comp lib="0" loc="(520,320)" name="Tunnel">
+      <a name="facing" val="east"/>
       <a name="width" val="5"/>
+      <a name="label" val="RT"/>
     </comp>
-    <comp lib="0" loc="(270,60)" name="Tunnel">
+    <comp lib="0" loc="(360,160)" name="Tunnel">
+      <a name="width" val="6"/>
+      <a name="label" val="Func Code"/>
+    </comp>
+    <comp lib="0" loc="(530,140)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="26"/>
+      <a name="label" val="Destiny"/>
+    </comp>
+    <comp lib="0" loc="(200,160)" name="Tunnel">
       <a name="facing" val="south"/>
-      <a name="width" val="16"/>
-      <a name="label" val="Const"/>
+      <a name="width" val="26"/>
+      <a name="label" val="Destiny"/>
+    </comp>
+    <comp lib="0" loc="(570,410)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="6"/>
+      <a name="label" val="Func Code"/>
     </comp>
     <comp lib="0" loc="(560,220)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="16"/>
     </comp>
-    <comp lib="0" loc="(610,410)" name="Pin">
+    <comp lib="0" loc="(340,210)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="width" val="5"/>
+      <a name="label" val="RD"/>
+    </comp>
+    <comp lib="0" loc="(320,170)" name="Splitter">
+      <a name="fanout" val="3"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="center"/>
+      <a name="bit1" val="0"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="1"/>
+      <a name="bit7" val="1"/>
+      <a name="bit8" val="1"/>
+      <a name="bit9" val="1"/>
+      <a name="bit10" val="1"/>
+      <a name="bit11" val="2"/>
+      <a name="bit12" val="2"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="2"/>
+      <a name="bit15" val="2"/>
+    </comp>
+    <comp lib="0" loc="(570,70)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="6"/>
     </comp>
-    <comp lib="0" loc="(340,70)" name="Tunnel">
+    <comp lib="0" loc="(560,140)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="26"/>
+    </comp>
+    <comp lib="0" loc="(580,270)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="5"/>
+    </comp>
+    <comp lib="0" loc="(540,70)" name="Tunnel">
+      <a name="facing" val="east"/>
       <a name="width" val="6"/>
-      <a name="label" val="Func Code"/>
+      <a name="label" val="Op Code"/>
     </comp>
-    <comp lib="0" loc="(520,370)" name="Tunnel">
-      <a name="facing" val="east"/>
+    <comp lib="0" loc="(600,370)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="width" val="5"/>
-      <a name="label" val="RD"/>
-    </comp>
-    <comp lib="0" loc="(520,320)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="5"/>
-      <a name="label" val="RT"/>
     </comp>
     <comp lib="0" loc="(520,270)" name="Tunnel">
       <a name="facing" val="east"/>
+      <a name="width" val="5"/>
+      <a name="label" val="RS"/>
+    </comp>
+    <comp lib="0" loc="(260,210)" name="Tunnel">
+      <a name="facing" val="north"/>
       <a name="width" val="5"/>
       <a name="label" val="RS"/>
     </comp>
@@ -204,12 +245,17 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="output" val="true"/>
       <a name="width" val="5"/>
     </comp>
-    <comp lib="0" loc="(240,120)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="5"/>
-      <a name="label" val="RS"/>
+    <comp lib="0" loc="(530,220)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="16"/>
+      <a name="label" val="Const"/>
     </comp>
-    <comp lib="0" loc="(150,100)" name="Splitter">
+    <comp lib="0" loc="(290,150)" name="Tunnel">
+      <a name="facing" val="south"/>
+      <a name="width" val="16"/>
+      <a name="label" val="Const"/>
+    </comp>
+    <comp lib="0" loc="(170,190)" name="Splitter">
       <a name="incoming" val="32"/>
       <a name="appear" val="center"/>
       <a name="bit1" val="0"/>
@@ -243,51 +289,6 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="bit29" val="1"/>
       <a name="bit30" val="1"/>
       <a name="bit31" val="1"/>
-    </comp>
-    <comp lib="0" loc="(600,370)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="5"/>
-    </comp>
-    <comp lib="0" loc="(570,70)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="6"/>
-    </comp>
-    <comp lib="0" loc="(270,120)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="5"/>
-      <a name="label" val="RT"/>
-    </comp>
-    <comp lib="0" loc="(560,140)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="26"/>
-    </comp>
-    <comp lib="0" loc="(170,120)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="6"/>
-      <a name="label" val="Op Code"/>
-    </comp>
-    <comp lib="0" loc="(540,70)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="6"/>
-      <a name="label" val="Op Code"/>
-    </comp>
-    <comp lib="0" loc="(320,120)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="5"/>
-      <a name="label" val="RD"/>
-    </comp>
-    <comp lib="0" loc="(530,220)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="16"/>
-      <a name="label" val="Const"/>
-    </comp>
-    <comp lib="0" loc="(570,410)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="6"/>
-      <a name="label" val="Func Code"/>
     </comp>
   </circuit>
 </project>
