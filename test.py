@@ -2,6 +2,7 @@ import os
 import subprocess
 import optparse
 
+import unittest
 
 verbose_level = 0
 verbose_level_all = 4
@@ -32,7 +33,7 @@ class TestCase:
         self.error = False
 
     def run(self, logisim: str, circ: str, template: str) -> None:
-        result = ""
+        # result = ""
         cmd = [
             logisim,
             template,
@@ -62,7 +63,7 @@ class TestCase:
             self.result = output[:r].strip()
             s = output.find("Hz (")
             e = output.find(" ticks", s)
-            self.speed = output[s + 4 : e]
+            self.speed = int(output[s + 4 : e])
 
             self.failed = self.result != self.expected_result or (
                 self.expected_speed != None and self.speed > self.expected_speed
@@ -125,13 +126,20 @@ class TestCase:
 
 
 class TestSuite:
-    def __init__(self, dir: str, base_dir: str, circ: str, template: str):
+    def __init__(self, dir: str, base_dir: str, circ: str, template: str, logisim: str, python: str):
         self.base_dir = base_dir
         self.circ = circ
         self.path = dir
         self.test: list[TestCase] = []
         self.template = template
+        self.logisim = logisim
+        self.python = python
+        self.failed: bool = False
+
+    def setup(self, fn:str|None = None):
         for file, path in self.searchAsmFiles():
+            if fn is not None and file != fn:
+                continue
             self.compile(file, path)
             expected = self.extractExpectedResult(path)
             excepted_time = self.extractExpectedSpeed(path)
@@ -143,7 +151,6 @@ class TestSuite:
                     excepted_time,
                 )
             )
-        self.failed: bool = False
 
     def searchAsmFiles(self):
         for root, _, files in os.walk(self.path):
@@ -165,7 +172,7 @@ class TestSuite:
         except FileExistsError as e:
             print_verbose(verbose_level_all, "Directorio existente: ", base_dir)
         print_verbose(verbose_level_all, "Compilando: ", path)
-        status = os.system(f"python3 assembler.py {path} -o {base_dir}")
+        status = os.system(f"{self.python} assembler.py {path} -o {base_dir}")
         if status != 0:
             print("Error al compilar: ", path)
 
@@ -203,68 +210,204 @@ class TestSuite:
 
     def run_all(self) -> None:
         for test in self.test:
-            test.run("logisim", self.circ, self.template)
+            test.run(self.logisim, self.circ, self.template)
             self.failed |= test.failed
             test.print()
 
-    def run_test(self, test_name: str) -> None:
+    def run_test(self, test_name: str):
+        self.setup(test_name)
         for test in self.test:
-            if test.name == test_name:
-                test.run("logisim", self.circ, self.template)
+            if test.test_name == test_name:
+                test.run(self.logisim, self.circ, self.template)
                 self.failed |= test.failed
                 test.print()
+                return test
 
 
-if __name__ == "__main__":
-    usage = "usage: %prog tests_dir circuit [options]"
+class LogisimTests(unittest.TestCase):
 
-    parser = optparse.OptionParser(usage=usage)
-    parser.add_option(
-        "-o",
-        "--out",
-        dest="output_folder",
-        type="string",
-        default=".",
-        help="Specify output folder to compile tests",
-    )
-    parser.add_option(
-        "-t",
-        "--template",
-        dest="template",
-        type="string",
-        default="s-mips-template.circ",
-        help="The template .circ file without specific implementation",
-    )
-    parser.add_option(
-        "-v",
-        "--verbose",
-        dest="verbose",
-        type="int",
-        default=0,
-        help="Verbose debug mode",
-    )
+    def setUp(self):
+        global test_suite
+        self.tests = test_suite
+
+    def check(self, name:str):
+        test = self.tests.run_test(name)
+        self.assertFalse(test.failed, f"Expected: {test.expected_result} | Got: {test.result}")
+
+    def test_add(self):
+        self.check('add')
+    def test_addi(self):
+        self.check('addi')
+    def test_and(self):
+        self.check('and')
+    def test_andi(self):
+        self.check('andi')
+    def test_beq(self):
+        self.check('beq')
+    def test_bgtz(self):
+        self.check('bgtz')
+    def test_blez(self):
+        self.check('blez')
+    def test_bltz(self):
+        self.check('bltz')
+    def test_bne(self):
+        self.check('bne')
+    def test_code(self):
+        self.check('code')
+    def test_div_mult_bne(self):
+        self.check('div-mult-bne')
+    def test_div(self):
+        self.check('div')
+    def test_divu_mulu_bne(self):
+        self.check('divu-mulu-bne')
+    def test_divu(self):
+        self.check('divu')
+    def test_halt(self):
+        self.check('halt')
+    def test_hello(self):
+        self.check('hello')
+    def test_jmp(self):
+        self.check('jmp')
+    def test_lemp(self):
+        self.check('lemp')
+    def test_liset(self):
+        self.check('liset')
+    def test_mcd(self):
+        self.check('mcd')
+    def test_mem(self):
+        self.check('mem')
+    def test_mult(self):
+        self.check('mult')
+    def test_mulu(self):
+        self.check('mulu')
+    def test_mycase(self):
+        self.check('mycase')
+    def test_nor(self):
+        self.check('nor')
+    def test_or(self):
+        self.check('or')
+    def test_ori(self):
+        self.check('ori')
+    def test_pop(self):
+        self.check('pop')
+    def test_push_pop(self):
+        self.check('push-pop')
+    def test_push(self):
+        self.check('push')
+    def test_rnd(self):
+        self.check('rnd')
+    def test_slt(self):
+        self.check('slt')
+    def test_slti(self):
+        self.check('slti')
+    def test_sub(self):
+        self.check('sub')
+    def test_sw_lw(self):
+        self.check('sw-lw')
+    def test_sw_push_pop(self):
+        self.check('sw-push-pop')
+    def test_test(self):
+        self.check('test')
+    def test_tty(self):
+        self.check('tty')
+    def test_xor(self):
+        self.check('xor')
+    def test_xori(self):
+        self.check('xori')
+
+input_dir:str
+circ:str
+output_folder:str
+template:str
+python:str
+logisim:str
+
+usage = "usage: %prog tests_dir circuit [options]"
+
+parser = optparse.OptionParser(usage=usage)
+parser.add_option(
+    "-o",
+    "--out",
+    dest="output_folder",
+    type="string",
+    default=".",
+    help="Specify output folder to compile tests",
+)
+parser.add_option(
+    "-t",
+    "--template",
+    dest="template",
+    type="string",
+    default="s-mips-template.circ",
+    help="The template .circ file without specific implementation",
+)
+parser.add_option(
+    "-v",
+    "--verbose",
+    dest="verbose",
+    type="int",
+    default=0,
+    help="Verbose debug mode",
+)
+parser.add_option(
+    "-l",
+    "--logisim",
+    dest="logisim",
+    type="string",
+    default="logisim",
+    help="The logisim program or path to run tests",
+)
+parser.add_option(
+    "-p",
+    "--python",
+    dest="python",
+    type="string",
+    default="python",
+    help="The python program or path to compile tests",
+)
+
+unit = False
+
+try:
     options, args = parser.parse_args()
     if len(args) != 2:
+        raise ValueError()
+    input_dir = args[0]
+    circ = args[1]
+    output_folder = options.output_folder
+    template = options.template
+    verbose_level = int(options.verbose)
+    python = options.python
+    logisim = options.logisim
+except:
+    input_dir = os.getenv('TESTS', '')
+    circ = os.getenv('CIRC', '')
+    output_folder = os.getenv('OUT', '')
+    template = os.getenv('TEMPLATE', '')
+    verbose_level = int(os.getenv('VERBOSE', 0))
+    python = os.getenv('PYTHON', '')
+    logisim = os.getenv('LOGISIM', '')
+    unit = True
+    if not input_dir or not circ:
         parser.error("Incorrect command line arguments")
         exit(1)
 
-    verbose_level: int = options.verbose
+try:
+    os.mkdir(output_folder)
+except FileExistsError as e:
+    print_verbose(verbose_level_all, "Directorio existente: ", output_folder)
 
-    output_folder: str = options.output_folder
-    template: str = options.template
-    input_dir: str = args[0]
-    circ: str = args[1]
+if not os.path.exists(template):
+    print("El archivo de template no existe")
+    exit(1)
 
-    try:
-        os.mkdir(output_folder)
-    except FileExistsError as e:
-        print_verbose(verbose_level_all, "Directorio existente: ", output_folder)
+test_suite = TestSuite(input_dir, output_folder, circ, template, logisim, python)
 
-    if not os.path.exists(template):
-        print("El archivo de template no existe")
-        exit(1)
-
-    test_suite = TestSuite(input_dir, output_folder, circ, template)
-    test_suite.run_all()
-    if test_suite.failed:
-        exit(1)
+if __name__ == '__main__':
+    if unit == True:
+        unittest.main()
+    else:
+        test_suite.setup()
+        test_suite.run_all()
+        if test_suite.failed:
+            exit(1)
