@@ -370,7 +370,7 @@ unit = False
 
 try:
     options, args = parser.parse_args()
-    if len(args) != 2:
+    if len(args) != 3:
         raise ValueError()
     input_dir = args[0]
     circ = args[1]
