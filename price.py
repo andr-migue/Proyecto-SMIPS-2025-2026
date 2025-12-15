@@ -3,10 +3,56 @@ from __future__ import division
 import xml.etree.ElementTree as ET
 import argparse
 import json
+import os
 
 circuit_bill = {}
 xml_root = None
 detailed = False
+library_roots = {}  # Cache para los XML roots de las librerías (key = nombre del circuito)
+all_roots = []  # Lista de todos los roots cargados para buscar circuitos
+base_path = ""  # Path base para resolver rutas relativas de librerías
+
+
+def load_external_libraries(root, lib_base_path=None):
+    """Carga las librerías externas referenciadas en el archivo .circ"""
+    global library_roots
+    global all_roots
+    
+    if lib_base_path is None:
+        lib_base_path = base_path
+    
+    # Agregar este root a la lista de roots si no está ya
+    if root not in all_roots:
+        all_roots.append(root)
+        
+    for lib in root.findall("lib"):
+        desc = lib.get("desc", "")
+        if desc.startswith("file#"):
+            # Es una librería externa
+            lib_path = desc[5:]  # Quitar "file#"
+            full_path = os.path.normpath(os.path.join(lib_base_path, lib_path))
+            
+            if full_path not in library_roots:  # Evitar cargar el mismo archivo dos veces
+                if os.path.exists(full_path):
+                    try:
+                        lib_root = ET.parse(full_path).getroot()
+                        library_roots[full_path] = lib_root
+                        all_roots.append(lib_root)
+                        # Cargar librerías anidadas recursivamente usando el directorio de esta librería
+                        lib_dir = os.path.dirname(full_path)
+                        load_external_libraries(lib_root, lib_dir)
+                    except Exception as e:
+                        print(f"Error loading library {lib_path}: {e}")
+                else:
+                    print(f"Library file not found: {full_path}")
+
+
+def find_circuit_root(circuit_name):
+    """Busca el root que contiene la definición de un circuito"""
+    for root in all_roots:
+        if root.find("./circuit[@name='{}']".format(circuit_name)) is not None:
+            return root
+    return None
 
 
 def main():
@@ -38,14 +84,22 @@ def main():
 
     global xml_root
     global detailed
+    global base_path
+    global library_roots
 
     input_file = args.file  # "s-mips.circ"
     output_file = args.output  # "result.json"
     circuit_name = args.circuit_name  # "S-MIPS"
     ensure_limit = args.limit  # 100
     detailed = args.detailed  # False
+    
+    # Establecer el path base para resolver librerías
+    base_path = os.path.dirname(os.path.abspath(input_file))
 
     xml_root = ET.parse(input_file).getroot()
+    
+    # Cargar las librerías externas
+    load_external_libraries(xml_root)
 
     _main = xml_root.find("./circuit[@name='{}']".format(circuit_name))
     if _main is None:
@@ -59,16 +113,30 @@ def main():
     else:
         json.dump(circuit_bill, open(output_file, "w"), indent=4)
 
-    if ensure_limit > 0 and ensure_limit < circuit_bill[circuit_name]["price"]:
+    # Mostrar resumen del precio total
+    total_price = circuit_bill[circuit_name]["price"]
+    print(f"\n{'='*50}")
+    print(f"PRECIO TOTAL DE '{circuit_name}': {total_price}")
+    print(f"{'='*50}")
+
+    if ensure_limit > 0 and ensure_limit < total_price:
+        print(f"ERROR: El precio ({total_price}) excede el límite ({ensure_limit})")
         exit(1)
 
 
 def bill(input_file, circuit_name):
     global xml_root
     global detailed
+    global base_path
+    global library_roots
 
+    # Establecer el path base para resolver librerías
+    base_path = os.path.dirname(os.path.abspath(input_file))
+    
     xml_root = ET.parse(input_file).getroot()
-    # circuits = xml_root.findall("circuit")
+    
+    # Cargar las librerías externas
+    load_external_libraries(xml_root)
 
     _main = xml_root.find("./circuit[@name='{}']".format(circuit_name))
     if _main is None:
@@ -84,30 +152,40 @@ def get_circuit_info(comp, level=0):
         exit(1)
     if is_default(comp):
         return get_default_circuit_info(comp)
+    
     circuit_name = comp.get("name")
+    
     # print("\t"*level + circuit_name)
 
+    # Si ya procesamos este circuito, devolver su precio (se incrementa amount en el padre)
     if circuit_name in circuit_bill:
         circuit_bill[circuit_name]["amount"] += 1
         return {"price": circuit_bill[circuit_name]["price"]}
 
+    # Buscar el root que contiene este circuito
+    search_root = find_circuit_root(circuit_name)
+    if search_root is None:
+        print(f"Circuit not found: {circuit_name}")
+        return {"price": 0}
+
     price = 0
-    parts = xml_root.findall("./circuit[@name='{}']/comp".format(circuit_name))
-    parts.extend(xml_root.findall("./circuit[@name='{}']/wire".format(circuit_name)))
+    parts = search_root.findall("./circuit[@name='{}']/comp".format(circuit_name))
+    parts.extend(search_root.findall("./circuit[@name='{}']/wire".format(circuit_name)))
 
     circuit_bill[circuit_name] = {"price": 0, "amount": 1, "parts": {}}
 
     for c in parts:
         info = get_circuit_info(c, level + 1)
-        price += info["price"]
+        part_price = info["price"]
+        price += part_price
         comp_id = get_comp_id(c)[1]
         if comp_id in circuit_bill[circuit_name]["parts"]:
             circuit_bill[circuit_name]["parts"][comp_id]["amount"] += 1
             if detailed:
                 circuit_bill[circuit_name]["parts"][comp_id]["units"].append(info)
-            circuit_bill[circuit_name]["parts"][comp_id]["total cost"] += info["price"]
+            circuit_bill[circuit_name]["parts"][comp_id]["total cost"] += part_price
         else:
-            data = {"amount": 1, "total cost": info["price"]}
+            data = {"amount": 1, "total cost": part_price}
             if detailed:
                 data["units"] = [info]
             circuit_bill[circuit_name]["parts"][comp_id] = data
@@ -117,7 +195,18 @@ def get_circuit_info(comp, level=0):
 
 
 def is_default(comp):
-    return comp.get("lib") or comp.tag == "wire"
+    """Determina si un componente es un componente predefinido de Logisim o un wire"""
+    if comp.tag == "wire":
+        return True
+    lib_id = comp.get("lib")
+    if lib_id is None:
+        return False
+    # Las librerías 0-6 son las incorporadas de Logisim
+    # Las librerías 7+ son librerías externas (circuitos personalizados)
+    try:
+        return int(lib_id) <= 6
+    except ValueError:
+        return False
 
 
 def get_comp_id(comp):
@@ -318,7 +407,7 @@ def calculate_price(key, info):
     else:
         print("Unknown element {}".format(key))
 
-    return price // 1000
+    return price
 
 
 if __name__ == "__main__":
