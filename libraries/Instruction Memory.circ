@@ -99,14 +99,14 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <circ-anchor facing="east" height="6" width="6" x="227" y="57"/>
     </appear>
     <wire from="(180,110)" to="(210,110)"/>
-    <wire from="(230,140)" to="(260,140)"/>
-    <wire from="(240,100)" to="(300,100)"/>
-    <wire from="(220,120)" to="(220,160)"/>
     <wire from="(260,140)" to="(260,160)"/>
     <wire from="(180,110)" to="(180,160)"/>
+    <wire from="(230,140)" to="(260,140)"/>
+    <wire from="(240,100)" to="(300,100)"/>
     <wire from="(230,120)" to="(230,140)"/>
     <wire from="(140,100)" to="(210,100)"/>
     <wire from="(450,20)" to="(450,240)"/>
+    <wire from="(220,120)" to="(220,160)"/>
     <wire from="(30,20)" to="(30,240)"/>
     <wire from="(30,20)" to="(450,20)"/>
     <wire from="(30,240)" to="(450,240)"/>
@@ -116,17 +116,12 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="width" val="32"/>
       <a name="tristate" val="false"/>
     </comp>
-    <comp lib="0" loc="(220,160)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="Clk"/>
-      <a name="labelloc" val="south"/>
+    <comp lib="4" loc="(240,100)" name="Register">
+      <a name="width" val="32"/>
     </comp>
-    <comp lib="0" loc="(260,160)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="Reset"/>
-      <a name="labelloc" val="south"/>
+    <comp lib="6" loc="(352,226)" name="Text">
+      <a name="text" val="Instruction Memory"/>
+      <a name="font" val="SansSerif plain 20"/>
     </comp>
     <comp lib="0" loc="(180,160)" name="Pin">
       <a name="facing" val="north"/>
@@ -134,16 +129,21 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="en"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="6" loc="(352,226)" name="Text">
-      <a name="text" val="Instruction Memory"/>
-      <a name="font" val="SansSerif plain 20"/>
-    </comp>
-    <comp lib="4" loc="(240,100)" name="Register">
-      <a name="width" val="32"/>
+    <comp lib="0" loc="(220,160)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Clk"/>
+      <a name="labelloc" val="south"/>
     </comp>
     <comp lib="0" loc="(140,100)" name="Pin">
       <a name="width" val="32"/>
       <a name="tristate" val="false"/>
+    </comp>
+    <comp lib="0" loc="(260,160)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Reset"/>
+      <a name="labelloc" val="south"/>
     </comp>
   </circuit>
 </project>
